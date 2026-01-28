@@ -1,0 +1,68 @@
+#DEFAULT-START
+[DEFAULT]
+bantime = 600
+findtime = 300
+maxretry = 3
+banaction = iptables-ipset[type=multiport]
+banaction_allports = iptables-ipset[type=allports]
+# action = %(action_mwl)s
+action = %(action_)s
+# 定义NGINX日志路径
+nginx_error_log = /opt/1panel/apps/openresty/openresty/log/error.log
+nginx_access_log = /opt/1panel/apps/openresty/openresty/log/access.log
+#DEFAULT-END
+
+[sshd]
+ignoreip = 127.0.0.0/8, ::1/128, fe80::/10
+enabled = true
+filter = sshd[mode=aggressive]
+port = 22
+maxretry = 3
+findtime = 300
+bantime = 7d
+banaction = iptables-ipset[type=allports, blocktype=DROP]
+action = %(action_)s
+          feishu[webhook_url="https://open.feishu.cn/open-apis/bot/v2/hook/fcccc74-xxxxx-xxxx-xxxx-xxxxxxxx", secret="xxxxxxxxxxxxxxxxxxxxxx"]
+logpath = /var/log/auth.log
+
+[nginx-http-auth]
+enabled = true
+port = http,https
+logpath = %(nginx_error_log)s
+banaction = iptables-ipset[type=multiport]
+
+[nginx-limit-req]
+enabled = true
+port = http,https
+logpath = %(nginx_error_log)s
+banaction =iptables-ipset[type=multiport]
+
+[nginx-botsearch]
+enabled = true
+port = http,https
+logpath = %(nginx_error_log)s
+banaction = iptables-ipset[type=multiport]
+
+[nginx-bad-request]
+enabled = true
+port = http,https
+logpath = %(nginx_access_log)s
+maxretry = 20
+banaction = iptables-ipset[type=multiport]
+
+[nginx-forbidden]
+enabled = true
+port = http,https
+logpath = %(nginx_error_log)s
+maxretry = 10
+banaction = iptables-ipset[type=multiport]
+
+[pure-ftpd]
+enabled = true
+filter = pure-ftpd
+port = 21
+logpath = /var/log/syslog
+maxretry = 10
+findtime = 1d
+bantime = 100h
+banaction = iptables-ipset[type=allports, blocktype=DROP]

@@ -1,0 +1,9 @@
+[vaultwarden-admin]
+enabled = true
+port = 80,443
+filter = vaultwarden-admin
+banaction = %(banaction_allports)s
+logpath = /opt/1panel/apps/bitwarden/bitwarden/data/vaultwarden.log
+maxretry = 3
+bantime = 14400
+findtime = 14400

@@ -1,0 +1,8 @@
+[DEFAULT]
+banaction = iptables-ipset[type=multiport]
+banaction_allports = iptables-ipset[type=allports]
+
+[sshd]
+backend = systemd
+journalmatch = _SYSTEMD_UNIT=ssh.service + _COMM=sshd
+enabled = true

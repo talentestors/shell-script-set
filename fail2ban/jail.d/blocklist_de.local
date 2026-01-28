@@ -1,0 +1,46 @@
+[ssh-blocklist]
+enabled  = true
+port     = ssh
+filter   = blocklist
+logpath  = /var/log/blocklist/blocklist-ssh.log
+maxretry = 1
+bantime  = 86400
+blocktype = DROP
+action = iptables-ipset[type=allports, name="SSH-blocklist", protocol=tcp, blocktype=DROP]
+
+[mail-blocklist]
+enabled  = true
+port     = 25,465,587
+filter   = blocklist
+logpath  = /var/log/blocklist/blocklist-mail.log
+maxretry = 1
+bantime  = 86400
+action = iptables-ipset[type=multiport, name="mail-blocklist", port="25,465,587"]
+
+[imap-blocklist]
+enabled  = true
+port     = 143,imaps,pop3,pop3s,4190
+filter   = blocklist
+logpath  = /var/log/blocklist/blocklist-imap.log
+maxretry = 1
+bantime  = 86400
+action = iptables-ipset[type=multiport, name="imap-blocklist", port="143,imaps,pop3,pop3s,4190"]
+
+[apache-blocklist]
+enabled  = true
+port     = 443,80
+filter   = blocklist
+logpath  = /var/log/blocklist/blocklist-apache.log
+maxretry = 1
+bantime  = 86400
+action   = iptables-ipset[type=multiport, port="443,80", name=apache_blocklist_tcp, protocol=tcp]
+           iptables-ipset[type=multiport, port="443,80", name=apache_blocklist_udp, protocol=udp, blocktype=DROP]
+
+[ftp-blocklist]
+enabled  = true
+port     = 21
+filter   = blocklist
+logpath  = /var/log/blocklist/blocklist-ftp.log
+maxretry = 1
+bantime  = 86400
+action = iptables-ipset[type=allports, name="ftp-blocklist", blocktype=DROP]
